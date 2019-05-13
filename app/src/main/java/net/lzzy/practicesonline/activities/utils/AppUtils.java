@@ -12,7 +12,11 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -124,5 +128,40 @@ public class AppUtils extends Application {
         String ip=spSetting.getString(URL_IP,"10.88.91.103");
         String port=spSetting.getString(URL_PORT,"8888");
         return new Pair<>(ip,port);
+    }
+
+    /**
+     * 获取各类网络的mac地址
+     * @return 包括wifi及移动数据网络的mac 地址
+     */
+
+    public  static  List<String> getMacAddress(){
+        try {
+            Enumeration<NetworkInterface> interfaces=NetworkInterface.getNetworkInterfaces();
+            List<String> items=new ArrayList<>();
+            while (interfaces.hasMoreElements()){
+                NetworkInterface ni=interfaces.nextElement();
+                byte[] address=ni.getHardwareAddress();
+                if (address==null||address.length==0){
+                    continue;
+                }
+                StringBuffer buffer=new StringBuffer();
+                for (byte a:address){
+                    buffer.append(String.format("%02X:",a));
+                }
+                if (buffer.length()>0){
+                    buffer.deleteCharAt(buffer.length()-1);
+                }
+                if (ni.isUp()){
+                    items.add(ni.getName()+":"+buffer.toString());
+                }
+            }
+            return items;
+
+        } catch (SocketException e) {
+            return new ArrayList<>();
+
+        }
+
     }
 }

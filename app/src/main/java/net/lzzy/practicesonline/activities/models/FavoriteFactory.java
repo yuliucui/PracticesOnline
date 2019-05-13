@@ -48,6 +48,8 @@ public class FavoriteFactory {
             return false;
         }
     }
+    //收藏
+
     public void  starQuestion(UUID questionId){
         Favorite favorite=getByQuestion(questionId.toString());
         if (favorite==null){
@@ -56,10 +58,12 @@ public class FavoriteFactory {
             repository.insert(favorite);
         }
     }
+    //取消收藏
+
     public void cancelStarQuestion(UUID questionId){
         Favorite favorite=getByQuestion(questionId.toString());
         if (favorite!=null){
-            repository.delete(questionId);
+            repository.delete(favorite);
 
         }
     }
