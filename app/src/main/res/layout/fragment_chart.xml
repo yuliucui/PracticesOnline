@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+       <FrameLayout android:id="@+id/fragment_chart_container"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_weight="1">
+           <com.github.mikephil.charting.charts.PieChart
+               android:id="@+id/fragment_chart_pie"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"/>
+           <com.github.mikephil.charting.charts.LineChart
+               android:id="@+id/fragment_chart_line"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"/>
+           <com.github.mikephil.charting.charts.BarChart
+               android:id="@+id/fragment_chart_bar"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent" />
+
+       </FrameLayout>
+        <LinearLayout android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView android:id="@+id/fragment_chart_dot1"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/gird_1"/>
+            <TextView android:id="@+id/fragment_chart_dot2"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/grid_2"/>
+            <TextView android:id="@+id/fragment_chart_dot3"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/grid_3"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/fragment_chart_tv_go"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|end"
+        android:text="表"
+        style="@style/TextAppearance.AppCompat"
+        android:gravity="center"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/gird_1" />
+
+</FrameLayout>

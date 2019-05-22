@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import net.lzzy.practicesonline.R;
 import net.lzzy.practicesonline.activities.fragments.QuestionFragment;
+import net.lzzy.practicesonline.activities.models.FavoriteFactory;
 import net.lzzy.practicesonline.activities.models.Question;
 import net.lzzy.practicesonline.activities.models.QuestionFactory;
 import net.lzzy.practicesonline.activities.models.UserCookies;
@@ -39,7 +40,7 @@ import java.util.List;
  */
 public class QuestionActivity extends AppCompatActivity {
     private static final String EXTRA_PRACTICE_ID = "extraPracticeId";
-    private static final String EXTRA_RESULT = "extraResult";
+    public static final String EXTRA_RESULT = "extraResult";
     private static final int REQUEST_CODE_RESULT = 0;
     private String practiceId;
     private int apiId;
@@ -104,11 +105,31 @@ public class QuestionActivity extends AppCompatActivity {
         intent.putParcelableArrayListExtra(EXTRA_RESULT,(ArrayList<?extends Parcelable>) results);
         startActivityForResult(intent, REQUEST_CODE_RESULT);
     }
+   //查看成绩
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //todo:返回查看数据
+        //todo:返回查看数据，查看收藏
+
+        if (data !=null){
+            if (data.getBooleanExtra(ResultActivity.ENSHRINE, false)) {
+                FavoriteFactory favoriteFactory=FavoriteFactory.getInstance();
+                List<Question> cc=new ArrayList<>();
+                for (Question question: questions){
+                    if (favoriteFactory.isQuestionStarred(question.getId().toString())){
+                        cc.add(question);
+                    }
+                }
+                questions.clear();
+                questions.addAll(cc);
+                initDots();
+                adapter.notifyDataSetChanged();
+            }else {
+                pager.setCurrentItem(data.getIntExtra(ResultActivity.QUESTION,0));
+            }
+        }
+
     }
 
     //region提交成绩
